@@ -24,6 +24,43 @@ impl Parse for RepeatInput {
     }
 }
 
+/// This macro generates an array with repeated blocks of code.
+/// 
+/// # Arguments
+/// 
+/// * `n` - The number of times to repeat the block.
+/// * `ident` - The identifier to use within the block.
+/// * `block` - The block of code to repeat.
+/// 
+/// # Example
+/// 
+/// ```rust
+/// use op_proc::array;
+/// let arr = [4, 5, 6, 7, 8];
+/// let narr = array!(3, i, {
+///    arr[i + 1] + 1
+/// });
+/// assert_eq!(narr, [6, 7, 8]);
+/// ```
+/// 
+/// This will expand to:
+/// 
+/// ```rust,ignore
+/// [
+///     {
+///         let i = 0;
+///         arr[i + 1] + 1
+///     },
+///     {
+///         let i = 1;
+///         arr[i + 1] + 1
+///     },
+///     {
+///         let i = 2;
+///         arr[i + 1] + 1
+///     }
+/// ]
+/// ```
 #[proc_macro]
 pub fn array(input: TokenStream) -> TokenStream {
     let RepeatInput {
@@ -38,6 +75,43 @@ pub fn array(input: TokenStream) -> TokenStream {
 
     output.into()
 }
+/// This macro generates a tuple with repeated blocks of code.
+/// 
+/// # Arguments
+/// 
+/// * `n` - The number of times to repeat the block.
+/// * `ident` - The identifier to use within the block.
+/// * `block` - The block of code to repeat.
+/// 
+/// # Example
+/// 
+/// ```rust
+/// use op_proc::tuple;
+/// let arr = [4, 5, 6, 7, 8];
+/// let ntuple = tuple!(3, i, {
+///    arr[i + 1] + 1
+/// });
+/// assert_eq!(ntuple, (6, 7, 8));
+/// ```
+/// 
+/// This will expand to:
+/// 
+/// ```rust,ignore
+/// (
+///     {
+///         let i = 0;
+///         arr[i + 1] + 1
+///     },
+///     {
+///         let i = 1;
+///         arr[i + 1] + 1
+///     },
+///     {
+///         let i = 2;
+///         arr[i + 1] + 1
+///     }
+/// )
+/// ```
 #[proc_macro]
 pub fn tuple(input: TokenStream) -> TokenStream {
     let RepeatInput {
